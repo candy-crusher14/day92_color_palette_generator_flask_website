@@ -1,0 +1,83 @@
+{% include 'base.html' %}
+{% from "bootstrap5/form.html" import render_form %}
+
+{% block body %}
+<header class="masthead" style="background-image: url('../static/assets/img/bg_wallpaper.jpg')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          {% if not is_extract  %}
+          <h1>Generate Color Palette From Images</h1>
+
+          {% else %}
+          <h1>Scroll Below! to See Generated Color Palette</h1>
+          {% endif %}
+          <span class="subheading">Upload your image to get started</span>
+        </div>
+        <div class="form-container mt-4">
+          <!-- Render the login form -->
+          <form method="POST" enctype="multipart/form-data">
+
+            <div class="form-group">
+
+            </div>
+            <div class="form-group text-center">
+              {{ render_form(form) }}
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<main class="mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<!-- Display the uploaded image -->
+        {% if image_url %}
+          <div class="text-center mt-4">
+            <img src="{{ image_url }}" height="400" width="400" alt="Uploaded Image" class="img-fluid">
+          </div>
+        {% endif %}
+
+        <!-- Display the extracted colors -->
+        {% if colors %}
+          <div class="mt-4">
+            <h3>Extracted Colors:</h3>
+            <ul class="list-inline text-center">
+              {% for color in colors %}
+                <li class="list-inline-item">
+                  <div style="width: 50px; height: 50px; background-color: {{ color }};"></div>
+                  <p>{{ color }}</p>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+
+
+{% include 'footer.html' %}
+{% endblock %}
